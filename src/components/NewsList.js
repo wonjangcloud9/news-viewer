@@ -24,7 +24,7 @@ const sampleArticle = {
   urlToImage: 'https://via.placeholder.com/160',
 };
 
-const NewsList = () => {
+const NewsList = ({ category }) => {
   const [articles, setArticles] = useState(null);
   const [loading, setLoading] = useState(false);
   const KEY = process.env.REACT_APP_NEWS_API_KEY;
@@ -35,7 +35,7 @@ const NewsList = () => {
       try {
         const query = qs.stringify({
           country: 'kr',
-          category: 'technology',
+          category: category === 'all' ? '' : category,
           apiKey: KEY,
         });
         const response = await axios.get(
@@ -48,7 +48,7 @@ const NewsList = () => {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [category]);
 
   // 대기 중일 때
   if (loading) {
